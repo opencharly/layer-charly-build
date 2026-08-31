@@ -990,7 +990,7 @@ charly-mcp-cmd-skill:
             charly-mcp-candy:
                 candy:
                     - charly
-                    - '@github.com/opencharly/layer-supervisord:vTAG'
+                    - '@github.com/opencharly/layer-supervisord'
             charly-mcp-port:
                 port:
                     - 18765
@@ -2489,7 +2489,7 @@ load-skill:
                         - fedora:43
                         - fedora
                     candy:
-                        - '@github.com/opencharly/pod-nested-podman-socket:vTAG'  # pulls in container-nesting itself
+                        - '@github.com/opencharly/pod-nested-podman-socket'  # pulls in container-nesting itself
             ```
 
             ## Usage
