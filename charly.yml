@@ -2580,7 +2580,7 @@ reconcile-skill:
             a layer DOES resolve to two different per-entity versions (a family pinned to a
             genuinely newer layer than the shared infra it composes), it **warns once and uses
             the newest** (see `/charly-internals:go` "Remote-layer resolver", `/charly-build:validate`).
-            The git `` is only the FETCH coordinate. `charly box reconcile` aligns the
+            The git `:vTAG` is only the FETCH coordinate. `charly box reconcile` aligns the
             on-disk git-tag pins — for each distinct repo referenced by the project's
             versioned YAML, it rewrites EVERY pin of that repo to ONE target tag, so every
             reference fetches one commit per repo and the next `charly box generate` emits
@@ -2609,7 +2609,7 @@ reconcile-skill:
 
             ## What it does
 
-            1. **Scan** every `@github.com/owner/repo[/path]` ref in the project's
+            1. **Scan** every `@github.com/owner/repo[/path]:vTAG` ref in the project's
                versioned YAML files (`charly.yml` + discovered `box/<name>/charly.yml` /
                `candy/<name>/charly.yml`, plus any flat-imported legacy per-kind files —
                `charly.yml` / `check.yml` / `local.yml` / `pod.yml` / `kubernetes.yml` / `vm.yml` /
