@@ -23,7 +23,8 @@ build-skill:
         family: build
         owner: charly-build
         description: |-
-            MUST be invoked before any work involving: building container images, charly box build command, pushing to registries, merging layers, build caches, or Containerfile generation.
+            Building container images, `charly box build`, pushing to registries, merging layers, build caches, or Containerfile generation. Use before any of those.
+
         triggers:
             - "`charly box build` / `charly box generate` / Containerfile"
         content: |
@@ -666,7 +667,8 @@ charly-mcp-cmd-skill:
         family: build
         owner: charly-build
         description: |-
-            MUST be invoked for either Model Context Protocol direction: the declarative out-of-process `mcp:` check verb that probes advertised servers, or `charly mcp serve`, which exposes the reflected Charly CLI over Streamable HTTP or stdio. Covers URL rewriting, host-networked and published ports, tool annotations, read-only filtering, project fallback, authoring tools, and the `charly-mcp` deployment layer. The name avoids collision with harness slash commands and the `/charly-coder:charly-mcp` image skill.
+            Either Model Context Protocol direction: the declarative out-of-process `mcp:` check verb that probes advertised servers, or `charly mcp serve` (reflected Charly CLI over Streamable HTTP or stdio). Covers URL rewriting, host-networked/published ports, tool annotations, read-only filtering, project fallback, authoring tools, the charly-mcp deployment layer.
+
         content: |
             # MCP - Model Context Protocol (client + server)
 
@@ -1129,13 +1131,8 @@ docs-skill:
         family: build
         owner: charly-build
         description: |-
-            The `charly docs generate` verb — the generator that renders the reference half of the
-            opencharly.ai documentation site from this repo's canonical sources. The site lives in
-            the standalone opencharly/docs repo: its deploy workflow runs this verb against the
-            charly commit its .gitmodules pins, and regeneration is a docs PR that bumps that pin.
-            MUST be invoked before any work involving the `charly docs` command, the opencharly.ai
-            site's generated trees, the candy/plugin-docs runtime plugin, or the cross-reference
-            rewriting that turns `/charly-<plugin>:<skill>` into site links.
+            The `charly docs generate` verb — the generator rendering the reference half of opencharly.ai from this repo's canonical sources. The site lives in the standalone opencharly/docs repo; regeneration is a docs PR that bumps its charly pin. Use before any `charly docs` work, the site's generated trees, or the candy/plugin-docs runtime plugin.
+
         triggers:
             - "`charly docs` / the opencharly.ai site / the opencharly/docs repo / Starlight/Astro / `candy/plugin-docs` (runtime plugin) or `candy/docs-site`"
         content: |
@@ -1344,8 +1341,8 @@ generate-skill:
         family: build
         owner: charly-build
         description: |-
-            Containerfile generation from charly.yml and layers.
-            MUST be invoked before any work involving: charly box generate command, Containerfile generation, .build/ directory contents, the task-verb emission pipeline, or understanding generated output.
+            Containerfile generation from charly.yml and layers — `charly box generate`, .build/ contents, the task-verb emission pipeline. Use before any of those.
+
         triggers:
             - "`charly box build` / `charly box generate` / Containerfile"
         content: |
@@ -1630,8 +1627,8 @@ inspect-skill:
         family: build
         owner: charly-build
         description: |-
-            Image inspection showing resolved configuration as JSON.
-            MUST be invoked before any work involving: charly box inspect command, viewing image configuration, or querying image metadata.
+            Image inspection showing resolved configuration as JSON — `charly box inspect`, viewing image configuration, querying image metadata.
+
         content: |
             # charly box inspect -- Image Inspection
 
@@ -1725,8 +1722,8 @@ list-skill:
         family: build
         owner: charly-build
         description: |-
-            List components from charly.yml and filesystem.
-            MUST be invoked before any work involving: charly box list commands, enumerating images, layers, build targets, services, routes, volumes, or aliases.
+            List components from charly.yml and filesystem — `charly box list`, enumerating images, layers, build targets, services, routes, volumes, aliases.
+
         content: |
             # charly box list -- List Components
 
@@ -1822,8 +1819,8 @@ merge-skill:
         family: build
         owner: charly-build
         description: |-
-            Post-build layer optimization via merging consecutive small layers.
-            MUST be invoked before any work involving: charly box merge command, image layer reduction, merge configuration, or post-build optimization.
+            Post-build layer optimization via merging consecutive small layers — `charly box merge`, image layer reduction, merge configuration.
+
         content: |
             # charly box merge -- Post-Build Layer Optimization
 
@@ -1980,7 +1977,8 @@ migrate-skill:
         family: build
         owner: charly-build
         description: |-
-            MUST be invoked before any work involving: the `charly migrate` command (the single idempotent migration that brings any opencharly config up to the latest schema CalVer), the CalVer schema-version stamp (`version: YYYY.DDD.HHMM`), the CUE-anchored HEAD/floor (`spec/schema/version.cue` → `#SchemaVersion`/`#SchemaFloor`), the declarative migration table (`candy/plugin-migrate/migrations.cue`, applied by the op-walker in `candy/plugin-migrate/engine.go`), the `LatestSchemaVersion()` load-time gate, or adding a new schema cutover as a migration-table entry.
+            The `charly migrate` command — the single idempotent migration bringing any opencharly config to the latest schema CalVer. Covers the CalVer stamp, the CUE-anchored HEAD/floor, the declarative migration table, the LatestSchemaVersion() gate, or adding a schema cutover.
+
         triggers:
             - "`charly migrate` / schema migration / legacy \u2192 latest CalVer / CalVer schema version"
         content: |
@@ -2113,8 +2111,8 @@ new-skill:
         family: build
         owner: charly-build
         description: |-
-            Scaffold new candies, boxes, and whole projects with template files.
-            MUST be invoked before any work involving: charly box new {project, box, candy} commands, creating new projects/boxes/candies, or scaffolding directories.
+            Scaffold new candies, boxes, and whole projects with template files — `charly box new {project, box, candy}`, creating projects/boxes/candies, scaffolding directories.
+
         content: |
             # charly box new -- Scaffold New Projects, Boxes, and Candies
 
@@ -2242,12 +2240,8 @@ pull-skill:
         family: build
         owner: charly-build
         description: |-
-            Fetch an image from its registry into local container storage so deploy-mode
-            commands can read its OCI labels.
-            MUST be invoked before any work involving: charly box pull command, the
-            ErrImageNotLocal error, fetching images by short name / fully-qualified ref /
-            @github.com/... remote ref, or recovering deploy-mode commands that fail
-            with "image X is not available locally".
+            Fetch an image from its registry into local container storage so deploy-mode commands can read its OCI labels — `charly box pull`, the ErrImageNotLocal error, fetching by short name / fully-qualified ref / @github.com remote ref.
+
         content: |
             # charly box pull -- Fetch Image Into Local Storage
 
@@ -2443,9 +2437,8 @@ load-skill:
         family: build
         owner: charly-build
         description: |-
-            Use when a locally-built image has to reach the NESTED podman store inside a running
-            pod — a candybox that runs its own containers. `charly box load` is the container
-            twin of `charly vm cp-box`. Invoked as `charly box load <target> <image>`.
+            When a locally-built image must reach the NESTED podman store inside a running pod (a candybox running its own containers). `charly box load <target> <image>` — the container twin of `charly vm cp-box`.
+
         triggers:
             - "`charly box load` / delivering an image into a pod's NESTED podman store / nested-podman-socket / the container twin of `charly vm cp-box`"
         content: |
@@ -2562,10 +2555,8 @@ reconcile-skill:
         family: build
         owner: charly-build
         description: |-
-            Use when @github layer/namespace pins drift across repos and the resolver emits
-            "referenced at multiple versions" warnings — `charly box reconcile` aligns every
-            pin of a repo to one version (clearing the warnings). Invoked as
-            `charly box reconcile`.
+            When @github layer/namespace pins drift across repos and the resolver emits 'referenced at multiple versions' warnings — `charly box reconcile` aligns every pin of a repo to one version.
+
         triggers:
             - "`charly box reconcile` / cross-repo `@github` pin alignment / candy-version-mismatch cleanup"
         content: |
@@ -2700,7 +2691,8 @@ secrets-skill:
         family: build
         owner: charly-build
         description: |-
-            MUST be invoked before any work involving: charly secrets commands, Secret Service / config-file credential management, GPG-encrypted .secrets files, credential import/export, or secret administration.
+            `charly secrets` commands, Secret Service / config-file credential management, GPG-encrypted .secrets files, credential import/export, secret administration.
+
         triggers:
             - "Secret management / `charly secrets` / Secret Service / GPG `.secrets`"
         content: |
@@ -3232,8 +3224,8 @@ settings-skill:
         family: build
         owner: charly-build
         description: |-
-            Runtime configuration management for the charly CLI.
-            MUST be invoked before any work involving: charly settings commands, runtime configuration, engine selection, bind address, storage paths, or secret backend configuration.
+            Runtime configuration management for the charly CLI — `charly settings`, engine selection, bind address, storage paths, secret backend configuration.
+
         content: |
             # charly settings -- Runtime Configuration
 
@@ -3327,7 +3319,8 @@ validate-skill:
         family: build
         owner: charly-build
         description: |-
-            MUST be invoked before any work involving: charly box validate command, validation rules, common validation errors, or checking charly.yml and layer definitions.
+            `charly box validate`, validation rules, common validation errors, checking charly.yml and layer definitions.
+
         triggers:
             - "`charly box validate` / schema error"
         content: |
