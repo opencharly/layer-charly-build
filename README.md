@@ -24,13 +24,18 @@ corpus from these entities, so the skills are authored here and projected there.
 
 This repo is consumed as a **skill source**, not as an image layer. Edit the
 `skill:` entities in `charly.yml`; the marketplace regeneration projects them
-into `/charly-build:*` pages. To reference the repo directly:
+into `/charly-build:*` pages.
+
+To reference the repo directly, compose it in a box. A box is a `candy:` node
+that carries the box's `base:` image and a nested `candy:` list of layer refs
+(the nested `candy:` is the composition list; the outer `candy:` is the box
+body):
 
 ```yaml
 my-box:
-  candy:
-    base: fedora
-    candy:
+  candy:                  # the box body (an IMAGE is a `candy:` node carrying `base:`)
+    base: fedora          # the box's base image
+    candy:                # the box's composition list
       - '@github.com/opencharly/layer-charly-build:v2026.271.1957'
 ```
 
