@@ -1,4 +1,4 @@
-version: 2026.240.1943
+version: 2026.261.1747
 charly-build:
     candy:
         version: 2026.243.0908
@@ -2148,7 +2148,7 @@ migrate-skill:
 
             ### Per-merge release git tags (decoupled from `version:`)
 
-            Every landing of ANY repo carries a **fresh** annotated release git tag `v<YYYY.DDD.HHMM>` — ONE per merge, so a repo accumulates MULTIPLE `v…` tags over time. The tag is **generated and applied by the fresh `pr-validator` at MERGE**, from the current UTC merge time — never by the author at push time (author-time stamps collide and mis-order across concurrent out-of-sync PRs; see `/charly-internals:git-workflow` "CalVer"). This is **decoupled** from the `charly.yml` `version:` field: `version:` is the SCHEMA version (bumped only when a cutover raises `#SchemaVersion`), whereas the tag marks the merge moment. Tag EVERY landing — including one at an unchanged `version:` (a content change, submodule extraction, image drop). Tags are **immutable**: only ever ADD new ones, never move or force-push an existing tag (so the load-time gate never sees a "newer than supported" CalVer from a re-tag). Every component is fixed-width zero-padded — 4-digit year, 3-digit day-of-year, 4-digit HHMM (`v2026.064.1937`, `v2026.142.1640`) — so tags sort chronologically under a plain alphanumeric sort; the evaluator computes `v$(date -u +%Y.%j.%H%M)` at merge (`%j` and `%H%M` are already zero-padded). Each repo — the superproject, every `box/<distro>` submodule, `plugins`, and `docs` — is tagged independently on its merged `main` HEAD (the tag marks the merge, so a repo needs no `charly.yml` to be tagged); a producer repo's PR merges + tags BEFORE its consumer's pointer bump. The SOLE exception is `sdk`, which tags under its Go-module `v0.<YYYYDDD>.<HHMM leading-zeros-stripped>` scheme (a semver requirement, not an exemption). See the project rulebook "Post-Execution Policies" (`AGENTS.md` / `CLAUDE.md`) and `/charly-internals:git-workflow`.
+            Every landing of ANY repo carries a **fresh** annotated release git tag `v<YYYY.DDD.HHMM>` — ONE per merge, so a repo accumulates MULTIPLE `v…` tags over time. The tag is **generated and applied by the fresh `pr-validator` at MERGE**, from the current UTC merge time — never by the author at push time (author-time stamps collide and mis-order across concurrent out-of-sync PRs; see `/charly-internals:git-workflow` "CalVer"). This is **decoupled** from the `charly.yml` `version:` field: `version:` is the SCHEMA version (bumped only when a cutover raises `#SchemaVersion`), whereas the tag marks the merge moment. Tag EVERY landing — including one at an unchanged `version:` (a content change, submodule extraction, image drop). Tags are **immutable**: only ever ADD new ones, never move or force-push an existing tag (so the load-time gate never sees a "newer than supported" CalVer from a re-tag). Every component is fixed-width zero-padded — 4-digit year, 3-digit day-of-year, 4-digit HHMM (`v2026.064.1937`, `v2026.142.1640`) — so tags sort chronologically under a plain alphanumeric sort; the evaluator computes `v$(date -u +%Y.%j.%H%M)` at merge (`%j` and `%H%M` are already zero-padded). Each repo — the superproject, every `box/<distro>` submodule, `plugins`, and `docs` — is tagged independently on its merged `main` HEAD (the tag marks the merge, so a repo needs no `charly.yml` to be tagged); a producer repo's PR merges + tags BEFORE its consumer's pointer bump. The SOLE exception is `sdk`, which tags under its Go-module `v0.<YYYYDDD>.<HHMM leading-zeros-stripped>` scheme (a semver requirement, not an exemption). See the project rulebook "Post-Execution Policies" (`AGENTS.md`) and `/charly-internals:git-workflow`.
 
             ## The migration table (declarative data)
 
@@ -2724,7 +2724,7 @@ reconcile-skill:
             remote's newest tag is at the moment of the call — see "`--remote` targets whatever
             is newest NOW" below before reaching for that flag.
 
-            The **zero-warnings R10 gate** (the project rulebook R1 (`AGENTS.md` / `CLAUDE.md`)) makes this load-bearing: a change
+            The **zero-warnings R10 gate** (the project rulebook R1 (`AGENTS.md`)) makes this load-bearing: a change
             that introduces a version mismatch is not landable until `charly box reconcile`
             clears the warning.
 
@@ -3677,7 +3677,7 @@ validate-skill:
             - **Cross-FILE name reuse is fine.** The same name MAY exist simultaneously in SEPARATE discovered files — a layer `candy/redis/charly.yml` (a `candy:` node with no `base:`/`from:`) and an image `box/redis/charly.yml` (a `candy:` node carrying `base:`/`from:`) resolve to distinct internal maps (`uf.Candy` vs `uf.Box`, routed by `base:`/`from:` presence), and the validator does NOT flag them. Verbs disambiguate by command context (`ResolveDeployRef` is image-first; `--add-candy <name>` selects the layer-first path).
             - **Same-document collision IS rejected.** Two top-level entities WITHIN one document (e.g. the root `charly.yml` carrying a `pod` + a `vm` + a `local`) MUST NOT share a name — they would collide on one YAML key. `charly box validate` flags the collision; rename one (the convention: keep the user-facing deploy, suffix the template it deploys — a `check-local` deploy + a `check-local-app` local template).
 
-            The loader still raises hard load-time errors on obsolete keys — the obsolete `qc` / `cachyos-dx` deployment names, and any obsolete `kind: deployment` doc or root-key `deployment:` (the deploy kind is now the name-first substrate kind: `pod:` / `vm:` / `kubernetes:` / `local:` / `android:` / `group:`). Every such error points at `charly migrate`. See the project rulebook (`AGENTS.md` / `CLAUDE.md`) and `/charly-build:migrate`.
+            The loader still raises hard load-time errors on obsolete keys — the obsolete `qc` / `cachyos-dx` deployment names, and any obsolete `kind: deployment` doc or root-key `deployment:` (the deploy kind is now the name-first substrate kind: `pod:` / `vm:` / `kubernetes:` / `local:` / `android:` / `group:`). Every such error points at `charly migrate`. See the project rulebook (`AGENTS.md`) and `/charly-build:migrate`.
 
             ## When to Use This Skill
 
