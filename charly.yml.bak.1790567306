@@ -1,5 +1,7 @@
+version: 2026.240.1943
 charly-build:
     candy:
+        version: 2026.243.0908
         description: |-
             Concept candy owning the charly-build authoring skills (build/generate/list/validate/migrate/…). Owns its family's `skill:` kind entities (sibling nodes in this file) — the
             the plugins→candies migration; candy/plugin-marketplace regenerates the marketplace
@@ -14,6 +16,7 @@ charly-build:
               context:
                 - build
               command: "true"
+
 build-skill:
     skill:
         name: build
@@ -21,6 +24,7 @@ build-skill:
         owner: charly-build
         description: |-
             Building container images, `charly box build`, pushing to registries, merging layers, build caches, or Containerfile generation. Use before any of those.
+
         triggers:
             - "`charly box build` / `charly box generate` / Containerfile"
         content: |
@@ -656,6 +660,7 @@ build-skill:
             - `/charly-internals:capabilities` — OCI labels emitted during the build stage; `CapabilityLabelMap` completeness check
 
             Live-deploy verification: see /charly-check:check (the 11 Testing Standards) and /charly-internals:disposable.
+
 charly-mcp-cmd-skill:
     skill:
         name: charly-mcp-cmd
@@ -663,6 +668,7 @@ charly-mcp-cmd-skill:
         owner: charly-build
         description: |-
             Either Model Context Protocol direction: the declarative out-of-process `mcp:` check verb that probes advertised servers, or `charly mcp serve` (reflected Charly CLI over Streamable HTTP or stdio). Covers URL rewriting, host-networked/published ports, tool annotations, read-only filtering, project fallback, authoring tools, the charly-mcp deployment layer.
+
         content: |
             # MCP - Model Context Protocol (client + server)
 
@@ -1127,6 +1133,7 @@ charly-mcp-cmd-skill:
             Invoke this skill BEFORE reading source code or launching Explore agents.
 
             **Workflow position:** Test mode / live service operation. Client: deploy an image with `mcp_provide`, start it, then probe. Server: compose `charly-mcp` into an image, bind `--bind project=/path/to/opencharly` at config time, start the container, then consume from any MCP-speaking LLM runtime. Pairs with `/charly-check:check` (parent router + declarative-verb catalog), `/charly-core:charly-config` (consumer-side injection + `--bind` for the project dir), `/charly-coder:charly-mcp` (server deployment layer), and the consumer-layer skills (`/charly-hermes:hermes`, `/charly-openwebui:openwebui`).
+
 docs-skill:
     skill:
         name: docs
@@ -1134,6 +1141,7 @@ docs-skill:
         owner: charly-build
         description: |-
             The `charly docs generate` verb — the generator rendering the reference half of opencharly.ai from this repo's canonical sources. The site lives in the standalone opencharly/docs repo; regeneration is a docs PR that bumps its charly pin. Use before any `charly docs` work, the site's generated trees, or the candy/plugin-docs runtime plugin.
+
         triggers:
             - "`charly docs` / the opencharly.ai site / the opencharly/docs repo / Starlight/Astro / `candy/plugin-docs` (runtime plugin) or `candy/docs-site`"
         content: |
@@ -1470,6 +1478,7 @@ docs-skill:
             Invoke before running or modifying `charly docs`, editing `candy/plugin-docs`, touching the
             generated trees in the opencharly/docs repo, or changing anything the generator reads (a candy's
             `description:`, a plugin's `providers:` or CUE schema, a skill's frontmatter or cross-references).
+
 generate-skill:
     skill:
         name: generate
@@ -1477,6 +1486,7 @@ generate-skill:
         owner: charly-build
         description: |-
             Containerfile generation from charly.yml and layers — `charly box generate`, .build/ contents, the task-verb emission pipeline. Use before any of those.
+
         triggers:
             - "`charly box build` / `charly box generate` / Containerfile"
         content: |
@@ -1754,6 +1764,7 @@ generate-skill:
             - `/charly-internals:generate-source` — Deep dive on Containerfile emission internals, `Task` struct, per-verb emitters, `StageInlineContent`, the `spec.ShellQuote` quoting helper and the `BuildStepShellDashC`/`BuildStepShellHeredoc` shell-prefix pair, LABEL-placement rationale.
             - `/charly-internals:go` — Source-code map: `charly/tasks.go` (64 lines, one function: `invokeOpEmitFragmentOpt`), `sdk/deploykit/tasks_emit.go` (the per-verb emitters), `sdk/deploykit` (`WriteCandySteps` + `WriteLabels`, relocated in #67), `charly/layers.go` struct definitions.
             - `/charly-selkies:ffmpeg` — canonical URL-repo consumer (triggers the `dnf5-plugins` prepend).
+
 inspect-skill:
     skill:
         name: inspect
@@ -1761,6 +1772,7 @@ inspect-skill:
         owner: charly-build
         description: |-
             Image inspection showing resolved configuration as JSON — `charly box inspect`, viewing image configuration, querying image metadata.
+
         content: |
             # charly box inspect -- Image Inspection
 
@@ -1847,6 +1859,7 @@ inspect-skill:
 
             - `/charly-image:layer` -- Layer-level detail shown in inspect output
             - `/charly-core:deploy` -- `charly.yml` overlay applied on top of inspect's resolved config
+
 list-skill:
     skill:
         name: list
@@ -1854,6 +1867,7 @@ list-skill:
         owner: charly-build
         description: |-
             List components from charly.yml and filesystem — `charly box list`, enumerating images, layers, build targets, services, routes, volumes, aliases.
+
         content: |
             # charly box list -- List Components
 
@@ -1942,6 +1956,7 @@ list-skill:
             ### Related skills
 
             - `/charly-image:layer` -- Layer authoring and structure
+
 merge-skill:
     skill:
         name: merge
@@ -1949,6 +1964,7 @@ merge-skill:
         owner: charly-build
         description: |-
             Post-build layer optimization via merging consecutive small layers — `charly box merge`, image layer reduction, merge configuration.
+
         content: |
             # charly box merge -- Post-Build Layer Optimization
 
@@ -2098,6 +2114,7 @@ merge-skill:
             ### Related skills
 
             - `/charly-image:layer` -- Layer authoring (layer size affects merge behavior)
+
 migrate-skill:
     skill:
         name: migrate
@@ -2105,8 +2122,9 @@ migrate-skill:
         owner: charly-build
         description: |-
             The `charly migrate` command — the single idempotent migration bringing any opencharly config to the latest schema CalVer. Covers the CalVer stamp, the CUE-anchored HEAD/floor, the declarative migration table, the LatestSchemaVersion() gate, or adding a schema cutover.
+
         triggers:
-            - "`charly migrate` / schema migration / legacy → latest CalVer / CalVer schema version"
+            - "`charly migrate` / schema migration / legacy \u2192 latest CalVer / CalVer schema version"
         content: |
             # charly migrate — single-command schema migration
 
@@ -2230,6 +2248,7 @@ migrate-skill:
             - `/charly-build:secrets`, `/charly-build:settings` — the credential schema
             - `/charly-internals:go` — loader internals (`LoadUnified`, `ParseCalVer`, the `gateSchemaVersion` load gate, the `candy/plugin-migrate/engine.go` op-walker)
             - `/charly-internals:cutover-policy` — why hard-cutover + a single idempotent `charly migrate` is the required shape
+
 new-skill:
     skill:
         name: new
@@ -2237,6 +2256,7 @@ new-skill:
         owner: charly-build
         description: |-
             Scaffold new candies, boxes, and whole projects with template files — `charly box new {project, box, candy}`, creating projects/boxes/candies, scaffolding directories.
+
         content: |
             # charly box new -- Scaffold New Projects, Boxes, and Candies
 
@@ -2357,6 +2377,7 @@ new-skill:
             - `/charly-image:layer` -- Layer authoring guide, charly.yml format, install files + the `charly candy set / add-rpm / add-deb / add-pac / add-aur` editing surface
             - `/charly-build:charly-mcp-cmd` -- "Authoring tools" table + the MCP-only build-from-scratch worked example
             - `/charly-internals:go` -- Implementation notes: the `yaml.v3` Node API is the reason edits preserve comments; `sdk/kit/scaffold.go` + `sdk/kit/yaml.go` house the create-side logic (`kit.ScaffoldProject` / `kit.AddBox`), `candy/plugin-authoring/authoring_edit.go` the candy-list edits
+
 pull-skill:
     skill:
         name: pull
@@ -2364,6 +2385,7 @@ pull-skill:
         owner: charly-build
         description: |-
             Fetch an image from its registry into local container storage so deploy-mode commands can read its OCI labels — `charly box pull`, the ErrImageNotLocal error, fetching by short name / fully-qualified ref / @github.com remote ref.
+
         content: |
             # charly box pull -- Fetch Image Into Local Storage
 
@@ -2552,6 +2574,7 @@ pull-skill:
             - `/charly-internals:go` — `ErrImageNotLocal` / `dispatchBuildEnsure` / `ExtractMetadata`
               source locations (`spec/spec/image_errors.go`, `charly/dispatch_build_ensure.go`,
               `spec/container/box_metadata_coneb.go`, `charly/image.go`).
+
 load-skill:
     skill:
         name: load
@@ -2559,6 +2582,7 @@ load-skill:
         owner: charly-build
         description: |-
             When a locally-built image must reach the NESTED podman store inside a running pod (a candybox running its own containers). `charly box load <target> <image>` — the container twin of `charly vm cp-box`.
+
         triggers:
             - "`charly box load` / delivering an image into a pod's NESTED podman store / nested-podman-socket / the container twin of `charly vm cp-box`"
         content: |
@@ -2668,6 +2692,7 @@ load-skill:
             ```
             box load: venue already has localhost/my-image:latest (verified intact) — skipping transfer
             ```
+
 reconcile-skill:
     skill:
         name: reconcile
@@ -2675,6 +2700,7 @@ reconcile-skill:
         owner: charly-build
         description: |-
             When @github layer/namespace pins drift across repos and the resolver emits 'referenced at multiple versions' warnings — `charly box reconcile` aligns every pin of a repo to one version.
+
         triggers:
             - "`charly box reconcile` / cross-repo `@github` pin alignment / candy-version-mismatch cleanup"
         content: |
@@ -2802,6 +2828,7 @@ reconcile-skill:
             Invoke when the resolver warns that a layer is referenced at multiple versions,
             when aligning a consumer's pins to a freshly-tagged producer, or whenever you need
             the project's `@github` pins consistent for a zero-warnings R10.
+
 secrets-skill:
     skill:
         name: secrets
@@ -2809,6 +2836,7 @@ secrets-skill:
         owner: charly-build
         description: |-
             `charly secrets` commands, Secret Service / config-file credential management, GPG-encrypted .secrets files, credential import/export, secret administration.
+
         triggers:
             - "Secret management / `charly secrets` / Secret Service / GPG `.secrets`"
         content: |
@@ -3333,6 +3361,7 @@ secrets-skill:
             ## When to Use This Skill
 
             **MUST be invoked** when the task involves `charly secrets` commands, Secret Service / config-file credential management, GPG-encrypted `.secrets` file management, GPG key management, Secret Service integration, or credential import/export. Invoke this skill BEFORE reading source code or launching Explore agents.
+
 settings-skill:
     skill:
         name: settings
@@ -3340,6 +3369,7 @@ settings-skill:
         owner: charly-build
         description: |-
             Runtime configuration management for the charly CLI — `charly settings`, engine selection, bind address, storage paths, secret backend configuration.
+
         content: |
             # charly settings -- Runtime Configuration
 
@@ -3426,6 +3456,7 @@ settings-skill:
             - `/charly-build:secrets` -- credential management
             - `/charly-core:charly-doctor` -- diagnose settings and secret storage health
             - `/charly-automation:enc` -- encrypted volume paths
+
 validate-skill:
     skill:
         name: validate
@@ -3433,6 +3464,7 @@ validate-skill:
         owner: charly-build
         description: |-
             `charly box validate`, validation rules, common validation errors, checking charly.yml and layer definitions.
+
         triggers:
             - "`charly box validate` / schema error"
         content: |
@@ -3652,3 +3684,4 @@ validate-skill:
             **MUST be invoked** when the task involves charly box validate command, validation rules, common validation errors, or checking charly.yml and layer definitions. Invoke this skill BEFORE reading source code or launching Explore agents.
 
             **Workflow position:** Pre-build. Validate before building to catch errors early.
+
