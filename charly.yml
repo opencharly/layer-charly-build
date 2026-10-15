@@ -573,6 +573,12 @@ build-skill:
             Remove the added line to revert it. Do not reach for `git checkout -- <file>` to undo it: that restores the
             file from the index and discards any other uncommitted work it holds.
 
+            ## Project directory override
+
+            `charly box build` (like every build-mode command) resolves `charly.yml` via `os.Getwd()`. Override with `-C <dir>` / `--dir <dir>` / `CHARLY_PROJECT_DIR=<dir>` — honoured before Kong dispatch. See `/charly-image:image` "Project directory resolution" for the canonical reference and the `charly mcp serve` use case. Typical use: building from an `charly mcp serve` MCP tool where the container cwd doesn't hold the project.
+
+            ## Cross-References
+
             ### `charly box` family siblings
 
             - `/charly-image:image` -- Family overview + charly.yml composition reference
