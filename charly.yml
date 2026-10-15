@@ -536,7 +536,11 @@ build-skill:
 
             ### Cache-mount corruption (pixi tzdata et al.)
 
-            Cache mounts declared via `--mount=type=cache,dst=<path>,uid=<u>,gid=<g>` (used for pixi, npm, cargo, rattler, dnf) persist across builds and are **not** evicted by `charly box build --no-cache` (which disables the build cache for that build). A disk-full event mid-download can leave a partial package in the cache, and every subsequent build re-hits the same broken file:
+            Cache mounts are declared as `--mount=type=cache,id=charly-<path>,dst=<path>,sharing=locked` (pixi, npm, cargo,
+            rattler and dnf all use one — `buildkit.SharedCacheMount` emits the format). Their **id is stable on purpose**:
+            that is what makes the cache survive layer-hash churn, which is the entire reason cache mounts exist
+            (`candy/plugin-build/cache_mount_test.go`). A cache mount is therefore not the build cache: `charly box build
+            --no-cache` disables the build cache for that build, and the mount's contents persist regardless. A disk-full event mid-download can leave a partial package in the cache, and every subsequent build re-hits the same broken file:
 
             ```
             error: × failed to link tzdata-2025c-hc9c84f9_1.conda
@@ -553,37 +557,21 @@ build-skill:
 
             `podman image prune -a -f` will delete tagged images that are **not referenced by a running container**. That means the image you just built via `charly box build` — and haven't started as a container yet — is eligible for prune. Observed sequence: `charly box build` → `podman image prune -af` → `sudo podman load` (manual rootful refresh) fails with `image not known`. Protect the fresh build by starting a container or use `prune` with explicit filters instead.
 
-            ### `--no-cache` does not invalidate intermediate scratch-stage caches
+            ### Forcing a rebuild of one layer's scratch stage
 
-            `charly box build --no-cache <image>` and `charly box build --cache none <image>` reliably disable the
-            cache for the **final image stage**, but in observed behavior they do **not** propagate
-            to intermediate scratch stages produced by `COPY candy/<x>/ /` instructions
-            (`[15/25] STEP 2/2: COPY candy/labwc/ /` style). Editing a single file inside a layer
-            directory and rebuilding with `--no-cache` may still pull the labwc scratch stage from
-            cache, leaving the new file content out of the rebuilt image.
-
-            **Workaround:** force a content-hash bump on the layer's `charly.yml`. The simplest is
-            adding (or removing) a trailing comment line:
+            A layer's scratch stage is keyed by the layer directory's own content — the cache key is
+            `(parent-image-SHA, instruction-text, COPY-source-content)` (see "Cache Efficiency" above) — so editing any
+            file under `candy/<name>/` rebuilds that stage and everything downstream of it. To force that rebuild without
+            changing the file that matters, bump the layer's `charly.yml`:
 
             ```bash
-            echo "" >> candy/labwc/charly.yml          # bump content hash
-            charly box build selkies-desktop                   # now invalidates the labwc scratch stage
-            git checkout -- candy/labwc/charly.yml     # revert the cosmetic change
+            echo "" >> candy/labwc/charly.yml          # bump the layer's content hash
+            charly box build selkies-desktop            # rebuilds the labwc scratch stage
+            git diff candy/labwc/charly.yml             # the appended line, and nothing else
             ```
 
-            This was discovered while shipping commit `febb9bd` (labwc autostart race fix): the
-            edit to `candy/labwc/autostart` did not propagate to the rebuilt image until
-            `candy/labwc/charly.yml` itself was touched. Two consecutive `--no-cache` rebuilds
-            produced the same image hash (`502c8012c7a5`) until the charly.yml content changed.
-
-            Symptom: `charly box list tags <name>` shows a new tag, but `charly shell <image> -c "cat /path/to/changed/file"`
-            returns the **old** content.
-
-            ## Project directory override
-
-            `charly box build` (like every build-mode command) resolves `charly.yml` via `os.Getwd()`. Override with `-C <dir>` / `--dir <dir>` / `CHARLY_PROJECT_DIR=<dir>` — honoured before Kong dispatch. See `/charly-image:image` "Project directory resolution" for the canonical reference and the `charly mcp serve` use case. Typical use: building from an `charly mcp serve` MCP tool where the container cwd doesn't hold the project.
-
-            ## Cross-References
+            Remove the added line to revert it. Do not reach for `git checkout -- <file>` to undo it: that restores the
+            file from the index and discards any other uncommitted work it holds.
 
             ### `charly box` family siblings
 
