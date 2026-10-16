@@ -12,7 +12,8 @@ Canonical files:
 - `charly.yml` — the `charly-build:` concept candy entity plus 15 `skill:` routing
   nodes (`build`, `generate`, `list`, `validate`, `migrate`, `new`, `merge`,
   `inspect`, `pull`, `load`, `reconcile`, `secrets`, `settings`, `docs`,
-  `charly-mcp-cmd`), each carrying `name`/`family`/`owner`/`triggers` and no body.
+  `charly-mcp-cmd`), each carrying `name`/`family`/`owner` and no body (and `triggers` where the
+  skill is routed — seven of these fifteen are not).
 - `.agents/skills/<name>/SKILL.md` — the 15 skill BODIES, one directory per node's
   `name:`. The files are the source of record for the prose.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
