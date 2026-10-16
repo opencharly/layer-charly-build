@@ -23,8 +23,8 @@ corpus from these entities, so the skills are authored here and projected there.
 ## How to use it
 
 This repo is consumed as a **skill source**, not as an image layer. Edit the
-`skill:` entities in `charly.yml`; the marketplace regeneration projects them
-into `/charly-build:*` pages.
+skill's file in `.agents/skills/<name>/`; the marketplace regeneration projects
+both it and its node into `/charly-build:*` pages.
 
 To reference the repo directly, compose it in a box. A box is a `candy:` node
 that carries the box's `base:` image and a nested `candy:` list of layer refs
@@ -41,10 +41,12 @@ my-box:
 
 ## Layout
 
-- `charly.yml` — the `charly-build:` concept candy entity plus 15 `skill:`
-  entities (`build`, `generate`, `list`, `validate`, `migrate`, `new`, `merge`,
+- `charly.yml` — the `charly-build:` concept candy entity plus 15 `skill:` routing
+  nodes (`build`, `generate`, `list`, `validate`, `migrate`, `new`, `merge`,
   `inspect`, `pull`, `load`, `reconcile`, `secrets`, `settings`, `docs`,
   `charly-mcp-cmd`).
+- `.agents/skills/<name>/SKILL.md` — the 15 skill bodies, one directory per node's
+  `name:`.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
 - `README.md` — this user overview.
 
