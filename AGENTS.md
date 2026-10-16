@@ -3,15 +3,19 @@
 Standalone candy repo for the `charly-build` concept candy — it ships no install
 content and owns the `build` family of `skill:` entities that document charly's
 image-building and project-authoring surface. The entities live in `charly.yml`
-at the repo root; `candy/plugin-marketplace` regenerates the standalone
-opencharly/marketplace corpus from them.
+at the repo root and each skill's BODY lives beside it, in
+`.agents/skills/<name>/SKILL.md`; `candy/plugin-marketplace` regenerates the
+standalone opencharly/marketplace corpus from them.
 
 Canonical files:
 
-- `charly.yml` — the `charly-build:` concept candy entity plus 15 `skill:`
-  entities (`build`, `generate`, `list`, `validate`, `migrate`, `new`, `merge`,
+- `charly.yml` — the `charly-build:` concept candy entity plus 15 `skill:` routing
+  nodes (`build`, `generate`, `list`, `validate`, `migrate`, `new`, `merge`,
   `inspect`, `pull`, `load`, `reconcile`, `secrets`, `settings`, `docs`,
-  `charly-mcp-cmd`).
+  `charly-mcp-cmd`), each carrying `name`/`family`/`owner` and no body (and `triggers` where the
+  skill is routed — seven of these fifteen are not).
+- `.agents/skills/<name>/SKILL.md` — the 15 skill BODIES, one directory per node's
+  `name:`. The files are the source of record for the prose.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
 - `README.md` — user overview only; never agent guidance.
 
@@ -36,11 +40,12 @@ Canonical files:
 
 ## Modify this repo
 
-- The `skill:` entities are the projected usage source. Edit them here, never the
-  generated `SKILL.md` in the marketplace corpus; a corpus regeneration
-  (`charly marketplace generate`) projects them.
-- When a charly build command's behaviour changes, update the matching `skill:`
-  entity in the same change so the corpus does not drift.
+- Edit a skill's `SKILL.md` under `.agents/skills/<name>/` for the prose, or its
+  node in `charly.yml` for the routing — never the generated `SKILL.md` in the
+  marketplace corpus; a corpus regeneration (`charly marketplace generate`)
+  projects both.
+- When a charly build command's behaviour changes, update the matching skill's
+  file in the same change so the corpus does not drift.
 - Keep the concept candy's `plan:` no-op; it exists only to carry the entities.
 
 ## Landing
