@@ -391,7 +391,7 @@ Three kinds of source changes are real cache invalidators — if you see a long 
 
 BuildKit's image exporter is the ONE push path — `--output type=image,name=<ref>,push=true` —
 and the only one that can push the multi-platform image a `--push` build produces. It
-replaces both `docker buildx --push` and `podman manifest push`.
+replaces the engine-native push drivers — no per-engine push path remains.
 
 Source: `candy/plugin-build/buildkit.go` (`pushOutput`).
 
