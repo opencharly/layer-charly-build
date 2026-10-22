@@ -55,8 +55,9 @@ charly box inspect jupyter --format tag       # ghcr.io/opencharly/jupyter:2026.
 charly box pull ghcr.io/opencharly/jupyter:2026.108.56
 ```
 
-Runs `podman pull <ref>` directly. Useful from any directory, including
-`/tmp`. Supports any registry that the underlying engine (`podman`/`docker`)
+Runs the configured engine's `pull` directly (`podman pull` / `docker pull`, or
+`nerdctl pull` when `engine.run: containerd`). Useful from any directory, including
+`/tmp`. Supports any registry that the underlying engine (`podman`/`docker`/`containerd`)
 can authenticate against.
 
 ### 3. Remote project ref (`@github.com/...`)
@@ -79,7 +80,8 @@ refs are accepted in `charly`. Deploy-mode commands (`charly shell`, `charly sta
   not restart, reconfigure, or touch any running container.
 - **Prints the resolved ref** on success. One line to stderr.
 - **Respects engine selection.** Uses the run engine from
-  `ResolveRuntime` (`podman` by default; `docker` if configured).
+  `ResolveRuntime` (`engine.run`, default `auto`: detects podman, then docker;
+  `containerd` is opt-in and never auto-detected).
 
 ## Interaction with `ErrImageNotLocal` (the sentinel pattern)
 

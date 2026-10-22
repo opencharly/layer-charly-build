@@ -27,8 +27,8 @@ Manage charly's runtime configuration stored in `~/.config/charly/config.yml`. C
 
 | Key | Default | Env Var | Description |
 |-----|---------|---------|-------------|
-| `engine.run` | `auto` | `CHARLY_RUN_ENGINE` | Run engine (docker/podman) |
-| `run_mode` | `auto` | `CHARLY_RUN_MODE` | Deployment mode (quadlet/direct) |
+| `engine.run` | `auto` | `CHARLY_RUN_ENGINE` | Run engine (`auto`, `podman`, `docker`, `containerd`). `auto` detects podman, then docker; `containerd` is opt-in and never auto-detected. `nerdctl` is containerd's CLI binary, not an engine value. |
+| `run_mode` | `auto` | `CHARLY_RUN_MODE` | Deployment mode (`auto`, `quadlet`, `systemd-unit`, `direct`). `quadlet` is podman's, `systemd-unit` wraps the engine CLI (containerd's `nerdctl`), `direct` is an ephemeral argv launch. |
 | `bind_address` | `127.0.0.1` | `CHARLY_BIND_ADDRESS` | Default bind address for ports |
 | `encrypted_storage_path` | `~/.local/share/charly/encrypted` | `CHARLY_ENCRYPTED_STORAGE_PATH` | Base path for gocryptfs volumes |
 | `volumes_path` | `~/.local/share/charly/volumes` | `CHARLY_VOLUMES_PATH` | Base path for bind-mounted volumes |
@@ -42,9 +42,18 @@ Manage charly's runtime configuration stored in `~/.config/charly/config.yml`. C
 
 ### Engine Selection
 
+`engine.run` selects the engine that RUNS containers; the image builder is BuildKit and is
+not selectable. The closed engine vocabulary is `podman`, `docker`, and `containerd`.
+`auto` (the default) resolves it by detecting podman, then docker; `containerd` is opt-in
+and is never auto-detected. `containerd` is driven through the `nerdctl` CLI, so `nerdctl`
+is the binary, not an engine value.
+
 ```bash
 # Which engine RUNS containers (the builder is BuildKit, and is not selectable)
 charly settings set engine.run podman
+
+# containerd: opt-in, never auto-detected (driven through the nerdctl CLI)
+charly settings set engine.run containerd
 
 # Check current engine
 charly settings get engine.run

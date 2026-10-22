@@ -440,8 +440,12 @@ For filtered builds (`charly box build <image>`), only the built images are merg
 ## Engine Configuration
 
 ```bash
-charly settings set engine.run docker     # or podman — which engine RUNS containers
+charly settings set engine.run docker     # or podman / containerd — which engine RUNS containers
 ```
+
+`engine.run` accepts `auto` (detect podman, then docker), `podman`, `docker`, and
+`containerd`; `containerd` is opt-in and driven through the `nerdctl` CLI (`nerdctl` is the
+binary, not an engine value). See `/charly-build:settings`.
 
 **There is no `engine.build`**: the image builder is BuildKit, which is not a container
 engine — it cannot run a container and therefore cannot be selected like one. `engine.run`
@@ -449,7 +453,7 @@ is unaffected and still selectable.
 
 ## Host Prerequisites (First Time)
 
-Building images needs the `charly` binary and a container engine — `docker` or `podman`, whichever `engine.run` names (BuildKit builds the image; the drive bridges it into
+Building images needs the `charly` binary and a container engine — `podman`, `docker`, or `containerd`, whichever `engine.run` names (BuildKit builds the image; the drive bridges it into
 that engine's store). Nothing else, and no project checkout: `charly box build` runs against the `charly.yml` in the current directory, one started by `charly box new project <dir>` or read from a published project with `--repo <owner>/<repo>`.
 
 Install `charly` as a distro-native package with your OWN package manager (`pacman -U` / `dnf install` / `apt install` / `apk add`) — the `charly generate-packages` plugin (nFPM) builds the `.pkg.tar.zst`/`.rpm`/`.deb`/`.apk`/`.ipk` published to the per-distro package repos. Obtaining the binary is covered end to end at [Install](https://opencharly.ai/start/install/); it is the one page that describes building from a source tree.
