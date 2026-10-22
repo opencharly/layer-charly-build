@@ -1,59 +1,35 @@
-# charly-build
+# charly-build — drained
 
-The `charly-build` family — the image-build and authoring command skills.
+**This repo no longer authors a skill.** It was the `charly-build` concept candy:
+a `true`-no-op `plan:` and 15 `skill:` entities, with the prose in
+`.agents/skills/`. Under `AGENTS.md` Part II #5 a skill lives in the repo whose
+code, plugin or config it describes — and this repo holds none of the verbs those
+skills document — so all fifteen moved, byte-identically, to the repo that does:
 
-The `charly-build` candy is a **concept candy**: it ships no install content and
-owns the `build` family of `skill:` entities that document charly's
-image-building and project-authoring surface — `build`, `generate`, `list`,
-`validate`, `migrate`, `new`, `merge`, `inspect`, `pull`, `load`, `reconcile`,
-`secrets`, `settings`, `docs`, and `charly-mcp-cmd`. `candy/plugin-marketplace`
-regenerates the standalone [opencharly/marketplace](https://github.com/opencharly/marketplace)
-corpus from these entities, so the skills are authored here and projected there.
+| Skill | Now authored in |
+|---|---|
+| `build`, `generate`, `inspect`, `list`, `load`, `merge`, `new`, `pull`, `reconcile`, `validate` | [`opencharly/plugin-box`](https://github.com/opencharly/plugin-box) — the `command:*:box` provider |
+| `migrate` | [`opencharly/plugin-migrate`](https://github.com/opencharly/plugin-migrate) |
+| `docs` | [`opencharly/plugin-docs`](https://github.com/opencharly/plugin-docs) |
+| `secrets` | [`opencharly/plugin-secrets`](https://github.com/opencharly/plugin-secrets) |
+| `settings` | [`opencharly/plugin-settings`](https://github.com/opencharly/plugin-settings) |
+| `charly-mcp-cmd` | [`opencharly/plugin-mcp`](https://github.com/opencharly/plugin-mcp) |
 
-## What it provides
+**The addresses did not change.** Every skill keeps its `build` family, so
+`/charly-build:build` … `/charly-build:validate` still resolve — they are simply
+authored where the verb is implemented. The full destination re-derivation for
+both skills-only carriers is [opencharly/opencharly#611](https://github.com/opencharly/opencharly/issues/611).
+
+## What remains here
 
 | Property | Value |
 |---|---|
-| Layer / candy | `charly-build` (concept candy) |
+| Layer / candy | `charly-build` (drained concept candy) |
 | Install content | none — a `true` no-op `plan:` |
-| Owns | 15 `skill:` entities in the `build` family |
-| Projected to | `marketplace/build/skills/` |
+| Owns | nothing — 0 `skill:` entities |
 | Service / port | none |
 
-## How to use it
-
-This repo is consumed as a **skill source**, not as an image layer. Edit the
-skill's file in `.agents/skills/<name>/`; the marketplace regeneration projects
-both it and its node into `/charly-build:*` pages.
-
-To reference the repo directly, compose it in a box. A box is a `candy:` node
-that carries the box's `base:` image and a nested `candy:` list of layer refs
-(the nested `candy:` is the composition list; the outer `candy:` is the box
-body):
-
-```yaml
-my-box:
-  candy:                  # the box body (an IMAGE is a `candy:` node carrying `base:`)
-    base: fedora          # the box's base image
-    candy:                # the box's composition list
-      - '@github.com/opencharly/layer-charly-build:v2026.271.1957'
-```
-
-## Layout
-
-- `charly.yml` — the `charly-build:` concept candy entity plus 15 `skill:` routing
-  nodes (`build`, `generate`, `list`, `validate`, `migrate`, `new`, `merge`,
-  `inspect`, `pull`, `load`, `reconcile`, `secrets`, `settings`, `docs`,
-  `charly-mcp-cmd`).
-- `.agents/skills/<name>/SKILL.md` — the 15 skill bodies, one directory per node's
-  `name:`.
-- `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
-- `README.md` — this user overview.
-
-## Related
-
-- Owning skill: `/charly-build:build`
-- Authoring reference: `/charly-image:layer`
-- [`opencharly/marketplace`](https://github.com/opencharly/marketplace) — the projected corpus
-- [`opencharly/charly`](https://github.com/opencharly/charly) — the charly CLI and image builder
-- [`opencharly/opencharly`](https://github.com/opencharly/opencharly) — the umbrella
+Do not compose, reference or edit this repo: the skills, their routing nodes and
+their prose all live at the destinations above. Retiring the repo itself (gitlink
+removal, archival) belongs to[opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600)
+and is not part of this change.
