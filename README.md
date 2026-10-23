@@ -31,5 +31,5 @@ both skills-only carriers is [opencharly/opencharly#611](https://github.com/open
 
 Do not compose, reference or edit this repo: the skills, their routing nodes and
 their prose all live at the destinations above. Retiring the repo itself (gitlink
-removal, archival) belongs to[opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600)
+removal, archival) belongs to [opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600)
 and is not part of this change.

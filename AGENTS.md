@@ -22,7 +22,8 @@ the destination nodes, so the dispatcher rows did not move meaning.
 Canonical files:
 
 - `charly.yml` — the drained `charly-build:` candy entity: a `true` no-op `plan:`
-  plus a `true` `check:` asserting it declares no `skill:` node. It exists only so
+  plus a `true` no-op `check:` (it asserts nothing; like every concept candy it is
+  a placeholder step). It exists only so
   this repo still validates as a project while it awaits retirement.
 - `README.md` — user overview only; never agent guidance; it is the destination map.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
