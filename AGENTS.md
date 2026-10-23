@@ -1,6 +1,6 @@
-# AGENTS.md — layer-charly-build (drained)
+# AGENTS.md — layer-charly-build (retired)
 
-This repo is **drained**: it authors nothing and must not be edited except to
+This repo is **retired**: it authors nothing and must not be edited except to
 record a further move. It was the `charly-build` concept candy — a `true`-no-op
 `plan:` plus 15 `skill:` routing nodes with their prose in `.agents/skills/`.
 Under `AGENTS.md` Part II #5 a skill lives in the repo whose code, plugin or
@@ -24,7 +24,7 @@ Canonical files:
 - `charly.yml` — the drained `charly-build:` candy entity: a `true` no-op `plan:`
   plus a `true` no-op `check:` (it asserts nothing; like every concept candy it is
   a placeholder step). It exists only so
-  this repo still validates as a project while it awaits retirement.
+  this repo validated as a project before retirement.
 - `README.md` — user overview only; never agent guidance; it is the destination map.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
 

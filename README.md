@@ -1,4 +1,9 @@
-# charly-build — drained
+# charly-build — retired
+
+> **RETIRED — this repo publishes nothing.** All fifteen `build`-family skills live in the
+> repo that holds the verb each one documents (the table below). Nothing is authored, built,
+> deployed or consumed here: a change to a `build`-family skill is a change at its destination
+> repo, in the same pull request as the verb it documents.
 
 **This repo no longer authors a skill.** It was the `charly-build` concept candy:
 a `true`-no-op `plan:` and 15 `skill:` entities, with the prose in
@@ -30,6 +35,5 @@ both skills-only carriers is [opencharly/opencharly#611](https://github.com/open
 | Service / port | none |
 
 Do not compose, reference or edit this repo: the skills, their routing nodes and
-their prose all live at the destinations above. Retiring the repo itself (gitlink
-removal, archival) belongs to [opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600)
-and is not part of this change.
+their prose all live at the destinations above, and this repo's retirement is
+tracked in [opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600).
