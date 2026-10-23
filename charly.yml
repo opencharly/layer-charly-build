@@ -1,108 +1,19 @@
 charly-build:
     candy:
         description: |-
-            Concept candy owning the charly-build authoring skills (build/generate/list/validate/migrate/…). Owns its family's `skill:` kind entities (sibling nodes in this file) — the
-            the plugins→candies migration; candy/plugin-marketplace regenerates the marketplace
-            corpus (the standalone opencharly/marketplace repo) from them.
+            Drained concept candy — kept only so this repo still validates as a project while it awaits
+            retirement (opencharly/opencharly#611). It owns NO `skill:` entity any more: under AGENTS.md
+            Part II #5 the fifteen `build` family skills moved to the repositories that hold the verbs they
+            document — the ten `charly box` verbs to `plugin-box`, and `migrate` / `docs` / `secrets` /
+            `settings` / `charly-mcp-cmd` to `plugin-migrate` / `plugin-docs` / `plugin-secrets` /
+            `plugin-settings` / `plugin-mcp`. Nothing is authored here now.
         plan:
-            - run: this documentation-only candy ships no install content (it carries the family's skill/hook/marketplace entities); validate-satisfying no-op
+            - run: this documentation-only candy ships no install content (it carried the family's skill entities); validate-satisfying no-op
               command: "true"
               context:
                 - build
-            - check: the build concept candy's skill entities are present and generated into the marketplace's build/skills
-              id: charly-build-present
+            - check: this drained candy declares no skill node — every build-family skill lives in the repo that holds the verb it documents
+              id: charly-build-drained
               context:
                 - build
               command: "true"
-
-build-skill:
-    skill:
-        name: build
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly box build` / `charly box generate` / Containerfile"
-charly-mcp-cmd-skill:
-    skill:
-        name: charly-mcp-cmd
-        family: build
-        owner: charly-build
-docs-skill:
-    skill:
-        name: docs
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly docs` / the opencharly.ai site / the opencharly/docs repo / Starlight/Astro / `candy/plugin-docs` (runtime plugin) or `candy/docs-site`"
-generate-skill:
-    skill:
-        name: generate
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly box build` / `charly box generate` / Containerfile"
-inspect-skill:
-    skill:
-        name: inspect
-        family: build
-        owner: charly-build
-list-skill:
-    skill:
-        name: list
-        family: build
-        owner: charly-build
-merge-skill:
-    skill:
-        name: merge
-        family: build
-        owner: charly-build
-migrate-skill:
-    skill:
-        name: migrate
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly migrate` / schema migration / legacy config shape / migration table / adding a migration step"
-new-skill:
-    skill:
-        name: new
-        family: build
-        owner: charly-build
-pull-skill:
-    skill:
-        name: pull
-        family: build
-        owner: charly-build
-load-skill:
-    skill:
-        name: load
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly box load` / delivering an image into a pod's NESTED podman store / nested-podman-socket / the container twin of `charly vm cp-box`"
-reconcile-skill:
-    skill:
-        name: reconcile
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly box reconcile` / cross-repo `@github` pin alignment / candy-version-mismatch cleanup"
-secrets-skill:
-    skill:
-        name: secrets
-        family: build
-        owner: charly-build
-        triggers:
-            - "Secret management / `charly secrets` / Secret Service / GPG `.secrets`"
-settings-skill:
-    skill:
-        name: settings
-        family: build
-        owner: charly-build
-validate-skill:
-    skill:
-        name: validate
-        family: build
-        owner: charly-build
-        triggers:
-            - "`charly box validate` / schema error"
